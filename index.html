@@ -227,26 +227,20 @@
       filter: brightness(0.5) saturate(0.6);
     }
 
-    /* YouTube background video */
+    /* Native video background */
     .hero-video-wrap {
       position: absolute; inset: 0; z-index: 0;
       overflow: hidden;
       pointer-events: none;
     }
-    .hero-video-wrap iframe {
+    .hero-video-wrap video {
       position: absolute;
       top: 50%; left: 50%;
-      /* Cover viewport keeping 16:9 ratio */
       width: max(100%, calc(100vh * 16 / 9));
       height: max(100%, calc(100vw * 9 / 16));
       transform: translate(-50%, -50%);
       opacity: 0.45;
-      border: none;
-      pointer-events: none;
-    }
-    /* On mobile — hide video, keep only fallback image */
-    @media (max-width: 768px) {
-      .hero-video-wrap { display: none; }
+      object-fit: cover;
     }
     .hero-content {
       position: relative; z-index: 2;
@@ -1561,15 +1555,11 @@
   <!-- Fallback image (mobile / before video loads) -->
   <div class="hero-bg-image"></div>
 
-  <!-- YouTube background video -->
+  <!-- Native background video (all platforms including mobile) -->
   <div class="hero-video-wrap">
-    <iframe
-      src="https://www.youtube-nocookie.com/embed/pkmeRPGnsqU?autoplay=1&mute=1&loop=1&playlist=pkmeRPGnsqU&controls=0&disablekb=1&fs=0&rel=0&showinfo=0&modestbranding=1&playsinline=1&iv_load_policy=3"
-      title="HEMA Praha background"
-      allow="autoplay; encrypted-media"
-      allowfullscreen
-      loading="eager">
-    </iframe>
+    <video autoplay muted loop playsinline preload="auto" aria-hidden="true">
+      <source src="hero-video.mp4" type="video/mp4">
+    </video>
   </div>
 
   <!-- Sword line decorations -->
