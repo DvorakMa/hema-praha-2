@@ -1,0 +1,2296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HEMA Praha</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;800;900&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ─── RESET & BASE ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html {
+      scroll-behavior: smooth;
+      /* Offset anchors below sticky nav */
+      scroll-padding-top: 64px;
+    }
+    body {
+      background-color: #050a20;
+      font-family: 'Barlow', -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      color: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Barlow Condensed', sans-serif;
+      text-transform: uppercase;
+      line-height: 1.0;
+      letter-spacing: 0.02em;
+    }
+    a { text-decoration: none; color: inherit; }
+    img { display: block; }
+    div::-webkit-scrollbar { display: none; }
+
+    /* ─── CSS TOKENS ─── */
+    :root {
+      --bg:         #050a20;
+      --bg-navy:    #0b112d;
+      --bg-mid:     #142756;
+      --blue:       #274caa;
+      --blue-dark:  #142d70;
+      --blue-light: #479aff;
+      --white:      #ffffff;
+      --gray:       #9ca3af;
+      --gray-light: #d1d5db;
+      --red:        #f87171;
+      --btn-grad: radial-gradient(87.77% 96.22% at 22.79% 4.91%, #274caa 0%, #142d70 100%);
+      --section-grad: radial-gradient(47.2% 47.2% at 50% 50%, #142756 0%, #050a20 100%);
+    }
+
+    /* ─── LAYOUT ─── */
+    .container {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 64px;
+    }
+    @media (max-width: 768px) {
+      .container { padding: 0 24px; }
+    }
+
+    /* ─── BUTTONS ─── */
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--btn-grad);
+      color: var(--white);
+      border: none; cursor: pointer;
+      border-radius: 9999px;
+      padding: 16px 32px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+    .btn-primary-xl { font-size: 30px; padding: 20px 40px; }
+
+    .btn-secondary {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: transparent;
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 9999px;
+      padding: 16px 32px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .btn-secondary:hover { border-color: var(--blue-light); background: rgba(39,76,170,0.15); }
+
+    /* ─── EYEBROW BADGE ─── */
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(39,76,170,0.25);
+      border: 1px solid rgba(39,76,170,0.5);
+      border-radius: 100px;
+      padding: 6px 16px 6px 10px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-bottom: 20px;
+    }
+    .eyebrow-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--blue-light);
+      flex-shrink: 0;
+    }
+
+    /* ─── NAV BANNER ─── */
+    #nav-banner {
+      background: #030714;
+      height: 44px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 64px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-light);
+      border-bottom: 1px solid rgba(39,76,170,0.2);
+    }
+    #nav-banner .banner-center { color: rgba(255,255,255,0.5); }
+    #nav-banner a { color: var(--blue-light); transition: opacity 0.2s; }
+    #nav-banner a:hover { opacity: 0.75; }
+    #nav-banner .banner-right { display: flex; gap: 24px; align-items: center; }
+    @media (max-width: 768px) {
+      #nav-banner { padding: 0 16px; }
+      #nav-banner .banner-center { display: none; }
+    }
+
+    /* ─── MAIN NAV ─── */
+    #main-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(5, 10, 32, 0);
+      transition: background 0.4s ease, border-color 0.4s ease;
+      border-bottom: 1px solid transparent;
+      backdrop-filter: blur(0px);
+    }
+    #main-nav.scrolled {
+      background: rgba(5, 10, 32, 0.95);
+      border-bottom-color: rgba(39,76,170,0.2);
+      backdrop-filter: blur(12px);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 80px;
+      padding: 0 64px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    .nav-logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--white);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-logo span {
+      color: var(--blue-light);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      border-left: 2px solid rgba(255,255,255,0.2);
+      padding-left: 10px;
+      line-height: 1.2;
+    }
+    .nav-links {
+      display: flex; gap: 36px; list-style: none;
+    }
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    @media (max-width: 1024px) {
+      .nav-links { display: none; }
+      .nav-inner { padding: 0 24px; }
+    }
+
+    /* ─── HERO ─── */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: flex-end;
+      padding: 0 0 80px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg,
+        rgba(5,10,32,0.3) 0%,
+        rgba(5,10,32,0.15) 30%,
+        rgba(5,10,32,0.6) 70%,
+        rgba(5,10,32,0.95) 100%
+      );
+      z-index: 1;
+    }
+    /* Decorative sword lines (from HEMA Praha) */
+    .hero-sword-lines {
+      position: absolute; inset: 0; z-index: 0; overflow: hidden; opacity: 0.12;
+    }
+    .hero-sword-lines svg {
+      position: absolute; bottom: 0;
+    }
+    /* Background image placeholder */
+    .hero-bg-image {
+      position: absolute; inset: 0;
+      background: url('https://hema-praha.cz/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.11c8717a.jpg&w=3840&q=75') center/cover no-repeat;
+      filter: brightness(0.6) saturate(0.7);
+    }
+    .hero-content {
+      position: relative; z-index: 2;
+      padding: 0 64px;
+      max-width: 1600px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    .hero-eyebrow {
+      margin-bottom: 24px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hero-eyebrow span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+    }
+    .hero-eyebrow .line {
+      flex: 1; max-width: 80px;
+      height: 1px; background: var(--blue-light); opacity: 0.5;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(39,76,170,0.3);
+      border: 1px solid rgba(71,154,255,0.4);
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      margin-bottom: 28px;
+    }
+    #hero h1 {
+      font-size: clamp(52px, 7vw, 96px);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: 0.01em;
+      color: var(--white);
+      max-width: 900px;
+      margin-bottom: 16px;
+      text-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    }
+    .hero-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.75);
+      margin-bottom: 48px;
+      text-transform: uppercase;
+    }
+    .hero-usps {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .hero-usp {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(5,10,32,0.6);
+      border: 1px solid rgba(39,76,170,0.4);
+      border-radius: 100px;
+      padding: 8px 16px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--white);
+      backdrop-filter: blur(8px);
+    }
+    .hero-usp .dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--blue-light);
+      flex-shrink: 0;
+    }
+    .hero-ctas {
+      display: flex; gap: 16px; flex-wrap: wrap;
+    }
+    @media (max-width: 768px) {
+      .hero-content { padding: 0 24px; }
+      .hero-ctas { flex-direction: column; }
+    }
+
+    /* ─── SCROLL REVEAL (TwistCafe Video Reveal analog) ─── */
+    #video-reveal {
+      background: var(--bg);
+      padding: 120px 0;
+      overflow: hidden;
+    }
+    .reveal-track {
+      position: relative;
+      padding: 0 64px;
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+    .big-reveal-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(64px, 10vw, 140px);
+      font-weight: 800;
+      text-transform: uppercase;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      color: rgba(255,255,255,0.06);
+      white-space: nowrap;
+      overflow: hidden;
+      user-select: none;
+    }
+    .big-reveal-text .reveal-word {
+      display: inline-block;
+      transform: translateY(100%);
+      opacity: 0;
+      transition: transform 0.9s cubic-bezier(0.16,1,0.3,1), opacity 0.9s ease;
+      margin-right: 0.15em;
+    }
+    .big-reveal-text.visible .reveal-word {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .big-reveal-text.visible .reveal-word:nth-child(2) { transition-delay: 0.12s; }
+    .big-reveal-text.visible .reveal-word:nth-child(3) { transition-delay: 0.24s; }
+    .big-reveal-text.visible .reveal-word:nth-child(4) { transition-delay: 0.36s; }
+    .big-reveal-text.visible .reveal-word:nth-child(5) { transition-delay: 0.48s; }
+    .reveal-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%,-50%);
+      z-index: 2;
+      text-align: center;
+    }
+    .reveal-center h2 {
+      font-size: clamp(40px, 5vw, 64px);
+      color: var(--white);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .reveal-center p {
+      font-size: 18px;
+      color: rgba(255,255,255,0.6);
+      font-family: 'Barlow', sans-serif;
+      max-width: 480px;
+    }
+    /* Scroll-triggered fade-in */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up.delay-1 { transition-delay: 0.15s; }
+    .fade-up.delay-2 { transition-delay: 0.3s; }
+    .fade-up.delay-3 { transition-delay: 0.45s; }
+    .fade-up.delay-4 { transition-delay: 0.6s; }
+
+    /* ─── SECTION SHARED ─── */
+    .section { padding: 100px 0; }
+    .section-header { margin-bottom: 64px; }
+    .section-header h2 {
+      font-size: clamp(40px, 5vw, 72px);
+      font-weight: 700;
+      color: var(--white);
+    }
+    .section-header p {
+      font-size: 18px;
+      color: var(--gray-light);
+      margin-top: 16px;
+      max-width: 600px;
+      line-height: 1.6;
+      font-family: 'Barlow', sans-serif;
+      text-transform: none;
+    }
+
+    /* ─── WHAT IS HEMA (dark radial bg) ─── */
+    #what-is-hema {
+      background: radial-gradient(47.2% 47.2% at 31.17% 50%, #142756 0%, #050a20 100%);
+      padding: 120px 0;
+    }
+    .what-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .what-grid .text-side h1 {
+      font-size: clamp(48px, 6vw, 84px);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 0.95;
+      margin-bottom: 32px;
+    }
+    .what-grid .text-side p {
+      font-size: 17px;
+      color: var(--gray-light);
+      line-height: 1.7;
+      margin-bottom: 16px;
+      font-family: 'Barlow', sans-serif;
+      text-transform: none;
+    }
+    .what-grid .text-side .tagline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--blue-light);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-top: 32px;
+      margin-bottom: 40px;
+    }
+    .what-grid .visual-side {
+      position: relative;
+    }
+    .what-grid .visual-side img {
+      width: 100%;
+      border-radius: 16px;
+      object-fit: cover;
+    }
+    .hema-circle {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 40px;
+    }
+    .hema-circle-item {
+      background: rgba(39,76,170,0.15);
+      border: 1px solid rgba(39,76,170,0.3);
+      border-radius: 12px;
+      padding: 16px 12px;
+      text-align: center;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      transition: border-color 0.2s, background 0.2s;
+      cursor: default;
+    }
+    .hema-circle-item:hover {
+      border-color: var(--blue-light);
+      background: rgba(39,76,170,0.25);
+      color: var(--white);
+    }
+    .hema-circle-item .ci-icon {
+      display: flex; justify-content: center;
+      margin-bottom: 8px;
+      color: var(--blue-light);
+    }
+    @media (max-width: 900px) {
+      .what-grid { grid-template-columns: 1fr; gap: 40px; }
+    }
+
+    /* ─── VIDEOS ─── */
+    #videos {
+      padding: 100px 0;
+      background: var(--bg);
+    }
+    .videos-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    .video-card {
+      background: var(--bg-navy);
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(39,76,170,0.2);
+    }
+    .video-card h3 {
+      padding: 24px 28px 16px;
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.05em;
+    }
+    .video-card iframe {
+      width: 100%;
+      aspect-ratio: 16/9;
+      border: none;
+      display: block;
+    }
+    @media (max-width: 768px) {
+      .videos-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── TRAINING PROGRAMS ─── */
+    #programs {
+      background: radial-gradient(45.26% 43.71% at 50% 43.71%, #142756 0%, #050a20 100%);
+      padding: 120px 0;
+    }
+    .programs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 64px;
+    }
+    .program-card {
+      background: rgba(5,10,32,0.7);
+      border: 1px solid rgba(39,76,170,0.25);
+      border-radius: 24px;
+      padding: 40px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .program-card:hover {
+      border-color: rgba(39,76,170,0.6);
+      transform: translateY(-4px);
+    }
+    .program-card.featured {
+      border-color: var(--blue);
+      background: rgba(20,45,112,0.3);
+    }
+    .program-badge {
+      display: inline-block;
+      background: var(--btn-grad);
+      color: var(--white);
+      border-radius: 100px;
+      padding: 4px 14px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      width: fit-content;
+    }
+    .program-card h3 {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.1;
+    }
+    .program-card h4 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--blue-light);
+      letter-spacing: 0.08em;
+    }
+    .program-card .program-desc {
+      font-family: 'Barlow', sans-serif;
+      font-size: 15px;
+      color: var(--gray-light);
+      line-height: 1.6;
+      text-transform: none;
+      flex: 1;
+    }
+    .program-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+    }
+    .program-features {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .program-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px;
+      color: var(--gray-light);
+      text-transform: none;
+    }
+    .program-feature .check {
+      color: var(--blue-light);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    @media (max-width: 900px) {
+      .programs-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── STATS / NUMBERS ─── */
+    #stats {
+      background: var(--bg);
+      padding: 100px 0;
+    }
+    .stats-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .stat-block { text-align: center; flex: 1; min-width: 180px; }
+    .stat-number {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: clamp(64px, 8vw, 96px);
+      font-weight: 800;
+      line-height: 1.0;
+      color: var(--white);
+    }
+    .stat-number span { color: var(--blue-light); }
+    .stat-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-top: 8px;
+    }
+    .stat-divider {
+      width: 1px;
+      height: 80px;
+      background: rgba(255,255,255,0.1);
+      flex-shrink: 0;
+    }
+    @media (max-width: 768px) {
+      .stat-divider { display: none; }
+      .stat-block { flex-basis: 45%; }
+    }
+
+    /* ─── TRAINERS ─── */
+    #trainers {
+      background: radial-gradient(54.74% 54.74% at 50% 45.26%, #142756 0%, #050a20 100%);
+      padding: 120px 0;
+    }
+    .trainers-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+      margin-top: 64px;
+    }
+    .trainer-card {
+      background: rgba(5,10,32,0.6);
+      border: 1px solid rgba(39,76,170,0.2);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .trainer-card:hover {
+      border-color: rgba(39,76,170,0.5);
+      transform: translateY(-6px);
+    }
+    .trainer-img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: contain;
+      object-position: bottom;
+      background: radial-gradient(ellipse at bottom, #142756 0%, #050a20 100%);
+    }
+    .trainer-info {
+      padding: 20px;
+    }
+    .trainer-info h3 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .trainer-info p {
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+      color: var(--gray);
+      line-height: 1.5;
+      text-transform: none;
+      margin-bottom: 12px;
+    }
+    .trainer-lang {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+    }
+    .trainer-fb {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      margin-top: 10px;
+      transition: color 0.2s;
+    }
+    .trainer-fb:hover { color: var(--blue-light); }
+    @media (max-width: 1100px) {
+      .trainers-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .trainers-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ─── PRICES ─── */
+    #prices {
+      background: var(--bg);
+      padding: 120px 0;
+    }
+    .prices-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 64px;
+    }
+    .price-card {
+      background: rgba(11,17,45,0.8);
+      border: 1px solid rgba(39,76,170,0.25);
+      border-radius: 24px;
+      padding: 40px 28px;
+      text-align: center;
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .price-card:hover {
+      border-color: rgba(39,76,170,0.55);
+      transform: translateY(-4px);
+    }
+    .price-card.featured {
+      border-color: var(--blue);
+      background: rgba(20,45,112,0.25);
+    }
+    .price-card h3 {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--white);
+    }
+    .price-card .price-desc {
+      font-family: 'Barlow', sans-serif;
+      font-size: 14px;
+      color: var(--gray);
+      text-transform: none;
+      line-height: 1.5;
+      flex: 1;
+    }
+    .price-amount {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 64px;
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.0;
+    }
+    .price-amount.free { color: var(--blue-light); font-size: 56px; }
+    .price-unit {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--gray);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: -8px;
+    }
+    @media (max-width: 900px) {
+      .prices-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 500px) {
+      .prices-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ─── SCHEDULE ─── */
+    #schedule {
+      background: radial-gradient(45.26% 43.71% at 50% 43.71%, #142756 0%, #050a20 100%);
+      padding: 120px 0;
+    }
+    .schedule-table-wrap {
+      margin-top: 48px;
+      overflow-x: auto;
+      border-radius: 16px;
+      border: 1px solid rgba(39,76,170,0.2);
+    }
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .schedule-table th {
+      background: rgba(11,17,45,0.9);
+      color: var(--gray);
+      font-weight: 700;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(39,76,170,0.2);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .schedule-table th:first-child { text-align: left; }
+    .schedule-table td {
+      padding: 14px 20px;
+      border-bottom: 1px dashed rgba(255,255,255,0.07);
+      text-align: center;
+      color: rgba(255,255,255,0.6);
+      font-size: 13px;
+    }
+    .schedule-table td:first-child {
+      text-align: left;
+      color: var(--gray);
+      font-weight: 700;
+    }
+    .schedule-table tr:last-child td { border-bottom: none; }
+    .sched-event {
+      background: rgba(39,76,170,0.2);
+      border: 1px solid rgba(39,76,170,0.35);
+      border-radius: 6px;
+      padding: 8px 12px;
+      display: inline-block;
+      color: var(--white);
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 1.3;
+      text-align: left;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s;
+      min-width: 100px;
+    }
+    .sched-event:hover { transform: scale(1.03); background: rgba(39,76,170,0.35); }
+    .sched-event .evt-time {
+      color: var(--blue-light);
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .sched-event .evt-name { font-size: 13px; }
+    .sched-event .evt-trainer { font-size: 11px; color: var(--gray); font-weight: 400; }
+    .sched-event.beginner { border-color: rgba(248,113,113,0.4); background: rgba(248,113,113,0.1); }
+    .sched-event.beginner .evt-time { color: var(--red); }
+    .sched-free {
+      background: rgba(71,154,255,0.1);
+      border: 1px solid rgba(71,154,255,0.3);
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: var(--blue-light);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.4;
+      display: inline-block;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .sched-free:hover { transform: scale(1.03); }
+
+    /* ─── FAQ ─── */
+    #faq {
+      background: var(--bg);
+      padding: 120px 0;
+    }
+    #faq h1 {
+      font-size: clamp(40px, 6vw, 84px);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 64px;
+      max-width: 800px;
+    }
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 900px;
+    }
+    .faq-item {
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .faq-item:first-child { border-top: 1px solid rgba(255,255,255,0.1); }
+    .faq-trigger {
+      width: 100%;
+      background: none;
+      border: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 0;
+      cursor: pointer;
+      text-align: left;
+      gap: 24px;
+    }
+    .faq-trigger h3 {
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: 0.03em;
+      line-height: 1.2;
+    }
+    .faq-icon {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .faq-trigger:hover .faq-icon {
+      background: rgba(39,76,170,0.3);
+      border-color: var(--blue);
+    }
+    .faq-icon svg { transition: transform 0.35s ease; }
+    .faq-item.open .faq-icon svg { transform: rotate(45deg); }
+    .faq-body {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+    }
+    .faq-item.open .faq-body { max-height: 300px; }
+    .faq-body-inner {
+      padding: 0 0 28px;
+      font-family: 'Barlow', sans-serif;
+      font-size: 16px;
+      color: var(--gray-light);
+      line-height: 1.7;
+      text-transform: none;
+      max-width: 700px;
+    }
+
+    /* ─── CONTACT ─── */
+    #contact {
+      background: radial-gradient(47.2% 47.2% at 31.17% 50%, #142756 0%, #050a20 100%);
+      padding: 120px 0;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-info h2 {
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .contact-info .tagline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 22px;
+      font-weight: 600;
+      color: var(--blue-light);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 40px;
+    }
+    .contact-details { display: flex; flex-direction: column; gap: 20px; }
+    .contact-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .contact-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      background: var(--btn-grad);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .contact-row .label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 4px;
+    }
+    .contact-row .value {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--white);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .contact-row .value a { color: inherit; transition: color 0.2s; }
+    .contact-row .value a:hover { color: var(--blue-light); }
+    .social-links {
+      display: flex; gap: 12px; margin-top: 36px;
+    }
+    .social-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(39,76,170,0.15);
+      border: 1px solid rgba(39,76,170,0.3);
+      border-radius: 100px;
+      padding: 10px 20px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .social-btn:hover {
+      border-color: var(--blue-light);
+      background: rgba(39,76,170,0.3);
+      color: var(--white);
+    }
+    .map-placeholder {
+      background: rgba(11,17,45,0.8);
+      border: 1px solid rgba(39,76,170,0.25);
+      border-radius: 20px;
+      overflow: hidden;
+      height: 400px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .map-placeholder iframe {
+      width: 100%; height: 100%; border: none;
+    }
+    @media (max-width: 900px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+    }
+
+    /* ─── FREE LESSON CTA ─── */
+    #free-lesson {
+      background: var(--btn-grad);
+      padding: 80px 0;
+      text-align: center;
+    }
+    #free-lesson h2 {
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 800;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    #free-lesson p {
+      font-family: 'Barlow', sans-serif;
+      font-size: 18px;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 40px;
+      text-transform: none;
+    }
+    .free-lesson-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--white);
+      color: var(--blue-dark);
+      border: none; cursor: pointer;
+      border-radius: 9999px;
+      padding: 18px 48px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 28px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .free-lesson-btn:hover { opacity: 0.9; transform: scale(1.02); }
+
+    /* ─── FOOTER ─── */
+    #footer {
+      background: #030714;
+      padding: 80px 0 40px;
+      border-top: 1px solid rgba(39,76,170,0.2);
+    }
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 60px;
+      margin-bottom: 64px;
+    }
+    .footer-brand .logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 32px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--white);
+      margin-bottom: 16px;
+    }
+    .footer-brand p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 24px;
+    }
+    .footer-col h5 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: 20px;
+    }
+    .footer-col ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .footer-col ul li a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 17px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      transition: color 0.2s;
+    }
+    .footer-col ul li a:hover { color: var(--blue-light); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-bottom span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gray);
+    }
+    .back-to-top {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--blue-light);
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .back-to-top:hover { opacity: 0.7; }
+    @media (max-width: 900px) {
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 40px; }
+    }
+    @media (max-width: 600px) {
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+    }
+
+    /* ─── SWORD LINE DECORATION ─── */
+    .sword-decoration {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.08;
+      overflow: hidden;
+    }
+
+    /* ─── HAMBURGER / MOBILE MENU ─── */
+    .nav-hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      flex-direction: column;
+      gap: 5px;
+      align-items: center;
+      justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu panel */
+    #mobile-menu {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(5, 10, 32, 0.98);
+      backdrop-filter: blur(16px);
+      z-index: 99;
+      flex-direction: column;
+      padding: max(100px, env(safe-area-inset-top, 100px)) 32px max(40px, env(safe-area-inset-bottom, 40px));
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+      /* Hidden by default; shown via flex when hamburger toggled */
+      display: flex;
+      pointer-events: none;
+      visibility: hidden;
+    }
+    #mobile-menu.open {
+      transform: translateX(0);
+      pointer-events: auto;
+      visibility: visible;
+    }
+    .mobile-menu-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+    .mobile-menu-links li a {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.75);
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: color 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mobile-menu-links li a:active { color: var(--blue-light); }
+    .mobile-menu-footer {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 28px;
+      margin-top: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .mobile-menu-footer a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--gray);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* ═══════════════════════════════
+       MOBILE OVERRIDES  (≤ 768px)
+    ═══════════════════════════════ */
+    @media (max-width: 768px) {
+      /* Base */
+      .container { padding: 0 20px; }
+
+      /* Nav banner */
+      #nav-banner {
+        padding: 0 16px;
+        height: auto;
+        min-height: 40px;
+        font-size: 11px;
+      }
+      #nav-banner > span:first-child { display: none; }
+
+      /* Main nav */
+      .nav-inner { height: 60px; padding: 0 20px; }
+      .nav-logo { font-size: 22px; }
+      .nav-logo span { display: none; }
+      .nav-hamburger { display: flex; }
+      /* Hide desktop CTA in nav on mobile */
+      .nav-inner > a.btn-primary { display: none; }
+
+      /* Hero */
+      #hero {
+        min-height: 100svh;
+        padding-bottom: max(32px, env(safe-area-inset-bottom));
+        align-items: flex-end;
+      }
+      .hero-content { padding: 0 20px; }
+      .hero-tag { font-size: 10px; margin-bottom: 16px; }
+      #hero h1 {
+        font-size: clamp(34px, 9vw, 52px);
+        margin-bottom: 12px;
+      }
+      .hero-sub { font-size: 15px; margin-bottom: 20px; }
+      .hero-usps {
+        gap: 6px;
+        margin-bottom: 24px;
+        overflow-x: auto;
+        flex-wrap: nowrap;
+        padding-bottom: 6px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        /* hide scrollbar */
+        scrollbar-width: none;
+      }
+      .hero-usps::-webkit-scrollbar { display: none; }
+      .hero-usp { font-size: 12px; padding: 6px 12px; white-space: nowrap; flex-shrink: 0; scroll-snap-align: start; }
+      .hero-ctas { flex-direction: column; gap: 12px; }
+      .hero-ctas .btn-primary,
+      .hero-ctas .btn-secondary {
+        width: 100%;
+        font-size: 20px;
+        padding: 16px 24px;
+        text-align: center;
+      }
+      /* Sword lines – hide on mobile to reduce clutter */
+      .hero-sword-lines { display: none; }
+
+      /* Video reveal */
+      #video-reveal { padding: 60px 0; }
+      .reveal-track { padding: 0 20px; display: flex; flex-direction: column; align-items: center; }
+      .big-reveal-text {
+        white-space: normal;
+        font-size: clamp(44px, 14vw, 70px);
+        text-align: center;
+        position: static;
+        overflow: visible;
+      }
+      .big-reveal-text .reveal-word { display: block; }
+      .reveal-center {
+        position: static;
+        transform: none;
+        text-align: center;
+        margin-top: 32px;
+        width: 100%;
+      }
+      .reveal-center h2 { font-size: 32px; }
+      .reveal-center p { font-size: 15px; }
+
+      /* Section headers */
+      .section-header { margin-bottom: 36px; }
+      .section-header h2 { font-size: clamp(32px, 8vw, 48px); }
+      .section-header p { font-size: 15px; margin-top: 12px; }
+
+      /* What is HEMA */
+      #what-is-hema { padding: 64px 0; }
+      .what-grid { gap: 36px; }
+      .what-grid .text-side h1 { font-size: clamp(36px, 10vw, 56px); margin-bottom: 20px; }
+      .what-grid .text-side p { font-size: 15px; }
+      .what-grid .text-side .tagline { font-size: 20px; margin-top: 20px; margin-bottom: 28px; }
+      .hema-circle { gap: 8px; }
+      .hema-circle-item { padding: 12px 8px; font-size: 12px; }
+      .hema-circle-item .ci-icon svg { width: 20px; height: 20px; }
+      /* On mobile: show image below text */
+      .what-grid { display: flex; flex-direction: column; }
+      .what-grid .visual-side img { max-height: 340px; object-fit: cover; }
+
+      /* Videos */
+      #videos { padding: 64px 0; }
+      .video-card h3 { padding: 16px 20px 10px; font-size: 20px; }
+
+      /* Programs */
+      #programs { padding: 64px 0; }
+      .programs-grid { margin-top: 36px; gap: 16px; }
+      .program-card { padding: 24px 20px; gap: 16px; }
+      .program-card h3 { font-size: 24px; }
+      .program-card h4 { font-size: 16px; }
+
+      /* Stats */
+      #stats { padding: 56px 0; }
+      .stats-row { gap: 24px; justify-content: center; }
+      .stat-block { min-width: 130px; flex-basis: 42%; }
+      .stat-number { font-size: clamp(48px, 12vw, 72px); }
+      .stat-label { font-size: 13px; }
+
+      /* Trainers */
+      #trainers { padding: 64px 0; }
+      .trainers-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 36px; }
+      .trainer-img { aspect-ratio: 3/4; object-fit: cover; object-position: top; }
+      .trainer-info { padding: 14px; }
+      .trainer-info h3 { font-size: 15px; }
+      .trainer-info p { font-size: 12px; margin-bottom: 8px; }
+
+      /* Prices */
+      #prices { padding: 64px 0; }
+      .prices-grid { grid-template-columns: 1fr; margin-top: 36px; gap: 14px; }
+      .price-card { padding: 28px 24px; gap: 12px; }
+      .price-amount { font-size: 52px; }
+      .price-card .btn-primary { width: 100%; font-size: 18px; padding: 14px; }
+
+      /* Schedule */
+      #schedule { padding: 64px 0; }
+      .schedule-table-wrap {
+        -webkit-overflow-scrolling: touch;
+        border-radius: 12px;
+        margin-top: 32px;
+      }
+      .schedule-table { min-width: 500px; font-size: 12px; }
+      .schedule-table th { padding: 10px 12px; font-size: 11px; }
+      .schedule-table td { padding: 10px 12px; }
+      .sched-event { min-width: 88px; padding: 6px 8px; }
+      #schedule > .container > div:last-child { margin-top: 32px; }
+
+      /* FAQ */
+      #faq { padding: 64px 0; }
+      #faq h1 { font-size: clamp(32px, 9vw, 52px); margin-bottom: 36px; }
+      .faq-trigger { padding: 20px 0; gap: 16px; }
+      .faq-trigger h3 { font-size: clamp(16px, 4.5vw, 22px); }
+      .faq-icon { width: 32px; height: 32px; }
+
+      /* Free lesson */
+      #free-lesson { padding: 56px 0; }
+      #free-lesson h2 { font-size: clamp(28px, 7vw, 44px); }
+      #free-lesson p { font-size: 16px; margin-bottom: 28px; }
+      .free-lesson-btn { font-size: 22px; padding: 16px 32px; width: 100%; max-width: 340px; }
+
+      /* Contact */
+      #contact { padding: 64px 0; }
+      .contact-info .tagline { font-size: 18px; margin-bottom: 24px; }
+      .contact-row .value { font-size: 17px; }
+      .map-placeholder { height: 260px; border-radius: 16px; }
+      .social-links { flex-wrap: wrap; margin-top: 24px; }
+
+      /* Footer */
+      #footer { padding: 48px 0 max(28px, env(safe-area-inset-bottom)); }
+      .footer-inner { margin-bottom: 36px; gap: 28px; }
+      .footer-brand .logo { font-size: 26px; }
+      .footer-col ul li a { font-size: 15px; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; padding-top: 24px; }
+    }
+
+    /* ─── TINY SCREENS (≤ 380px) ─── */
+    @media (max-width: 380px) {
+      #hero h1 { font-size: 30px; }
+      .trainers-grid { grid-template-columns: 1fr; }
+      .prices-grid { grid-template-columns: 1fr; }
+      .price-card { flex-direction: column; }
+    }
+
+    /* ─── STICKY BOTTOM CTA (mobile only) ─── */
+    #sticky-cta {
+      display: none;
+    }
+    @media (max-width: 768px) {
+      #sticky-cta {
+        display: flex;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        z-index: 50;
+        background: rgba(5,10,32,0.96);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid rgba(39,76,170,0.3);
+        padding: 12px 20px max(16px, env(safe-area-inset-bottom));
+        gap: 10px;
+      }
+      #sticky-cta a, #sticky-cta button {
+        flex: 1;
+        font-size: 16px;
+        padding: 14px 12px;
+        text-align: center;
+      }
+      /* Push footer content above sticky bar */
+      #footer { padding-bottom: max(90px, calc(60px + env(safe-area-inset-bottom))); }
+    }
+
+    /* ─── TOUCH: active states ─── */
+    @media (hover: none) {
+      .program-card:hover, .price-card:hover, .trainer-card:hover { transform: none; }
+      .btn-primary:active { opacity: 0.75; transform: scale(0.98); }
+      .btn-secondary:active { background: rgba(39,76,170,0.2); }
+      .sched-event:hover { transform: none; }
+      .sched-event:active { transform: scale(0.98); background: rgba(39,76,170,0.35); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════
+     NAV BANNER
+═══════════════════════════════════════ -->
+<div id="nav-banner">
+  <span>WANT TO START? SIGN UP TODAY</span>
+  <span class="banner-center">HISTORICAL EUROPEAN MARTIAL ARTS — PRAGUE</span>
+  <div class="banner-right">
+    <a href="tel:+420602419636">+420 602 419 636</a>
+    <span style="opacity:0.3">|</span>
+    <a href="mailto:info@hema-praha.cz">info@hema-praha.cz</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MAIN NAV
+═══════════════════════════════════════ -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      HEMA
+      <span>Praha<br>Martial Arts</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#programs">Groups</a></li>
+      <li><a href="#schedule">Schedule</a></li>
+      <li><a href="#trainers">Trainers</a></li>
+      <li><a href="#prices">Prices</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSemipf4_RVJYXOFclz8AFvNq6fa1k3yrP2I9z6rWzATaXbi7g/viewform" class="btn-primary" style="font-size:17px; padding:12px 28px;">TRY FOR FREE</a>
+    <button class="nav-hamburger" id="hamburger-btn" aria-label="Otevřít menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════
+     MOBILE MENU
+═══════════════════════════════════════ -->
+<div id="mobile-menu" role="dialog" aria-label="Navigace" aria-modal="true">
+  <ul class="mobile-menu-links">
+    <li><a href="#programs"   onclick="closeMobileMenu()">Groups</a></li>
+    <li><a href="#schedule"   onclick="closeMobileMenu()">Schedule</a></li>
+    <li><a href="#trainers"   onclick="closeMobileMenu()">Trainers</a></li>
+    <li><a href="#prices"     onclick="closeMobileMenu()">Prices</a></li>
+    <li><a href="#faq"        onclick="closeMobileMenu()">FAQ</a></li>
+    <li><a href="#contact"    onclick="closeMobileMenu()">Contact</a></li>
+  </ul>
+  <div class="mobile-menu-footer">
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSemipf4_RVJYXOFclz8AFvNq6fa1k3yrP2I9z6rWzATaXbi7g/viewform" class="btn-primary" style="font-size:22px;padding:18px 32px;text-align:center;width:100%;">TRY FOR FREE</a>
+    <a href="tel:+420602419636">+420 602 419 636</a>
+    <a href="mailto:info@hema-praha.cz">info@hema-praha.cz</a>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     HERO
+═══════════════════════════════════════ -->
+<section id="hero">
+  <!-- Background image -->
+  <div class="hero-bg-image"></div>
+
+  <!-- Sword line decorations -->
+  <div class="hero-sword-lines">
+    <svg width="688" height="1552" fill="none" xmlns="http://www.w3.org/2000/svg" style="left:0;position:absolute;bottom:0">
+      <path d="M684.861 0v417.236c0 345.49 0 518.234-72.73 663.934a691.237 691.237 0 0 1-56.783 94.15C460.421 1307.64 307.614 1388.28 2 1549.56" stroke="#274CAA" stroke-width="5"/>
+    </svg>
+    <svg width="688" height="1552" fill="none" xmlns="http://www.w3.org/2000/svg" style="left:3.5rem;position:absolute;bottom:0">
+      <path d="M684.861 0v417.236c0 345.49 0 518.234-72.73 663.934a691.237 691.237 0 0 1-56.783 94.15C460.421 1307.64 307.614 1388.28 2 1549.56" stroke="#274CAA" stroke-width="5"/>
+    </svg>
+    <svg width="688" height="1552" fill="none" xmlns="http://www.w3.org/2000/svg" style="left:7rem;position:absolute;bottom:0">
+      <path d="M684.861 0v417.236c0 345.49 0 518.234-72.73 663.934a691.237 691.237 0 0 1-56.783 94.15C460.421 1307.64 307.614 1388.28 2 1549.56" stroke="#274CAA" stroke-width="5"/>
+    </svg>
+    <svg width="688" height="1552" fill="none" xmlns="http://www.w3.org/2000/svg" style="left:10.5rem;position:absolute;bottom:0">
+      <path d="M684.861 0v417.236c0 345.49 0 518.234-72.73 663.934a691.237 691.237 0 0 1-56.783 94.15C460.421 1307.64 307.614 1388.28 2 1549.56" stroke="#274CAA" stroke-width="5"/>
+    </svg>
+    <svg width="688" height="1552" fill="none" xmlns="http://www.w3.org/2000/svg" style="left:14rem;position:absolute;bottom:0">
+      <path d="M684.861 0v417.236c0 345.49 0 518.234-72.73 663.934a691.237 691.237 0 0 1-56.783 94.15C460.421 1307.64 307.614 1388.28 2 1549.56" stroke="#274CAA" stroke-width="5"/>
+    </svg>
+  </div>
+
+  <div class="hero-bg"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">New Entry Groups Every Month</div>
+    <h1>I AM THE SWORD,<br>DEADLY AGAINST<br>ALL WEAPONS.</h1>
+    <p class="hero-sub">Historical European Martial Arts — Prague</p>
+    <div class="hero-usps">
+      <div class="hero-usp"><span class="dot"></span>Athletics</div>
+      <div class="hero-usp"><span class="dot"></span>Fighting</div>
+      <div class="hero-usp"><span class="dot"></span>Tactics</div>
+      <div class="hero-usp"><span class="dot"></span>Community</div>
+      <div class="hero-usp"><span class="dot"></span>History</div>
+    </div>
+    <div class="hero-ctas">
+      <button class="btn-primary btn-primary-xl" onclick="document.getElementById('prices').scrollIntoView({behavior:'smooth'})">JOIN HEMA PRAHA</button>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSemipf4_RVJYXOFclz8AFvNq6fa1k3yrP2I9z6rWzATaXbi7g/viewform" class="btn-secondary btn-primary-xl">TRY FOR FREE</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     VIDEO REVEAL (TwistCafe structure)
+═══════════════════════════════════════ -->
+<section id="video-reveal">
+  <div class="reveal-track">
+    <div class="big-reveal-text" id="reveal-text" aria-hidden="true">
+      <span class="reveal-word">LEARN.</span>
+      <span class="reveal-word">FIGHT.</span>
+      <span class="reveal-word">REPEAT.</span>
+    </div>
+    <div class="reveal-center fade-up">
+      <div class="eyebrow"><span class="eyebrow-dot"></span>Our Story</div>
+      <h2>What is HEMA?</h2>
+      <p>Historical European Martial Arts — learn to fight with swords, like medieval and renaissance people did.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     WHAT IS HEMA
+═══════════════════════════════════════ -->
+<section id="what-is-hema">
+  <div class="container">
+    <div class="what-grid">
+      <div class="text-side fade-up">
+        <div class="eyebrow"><span class="eyebrow-dot"></span>H.E.M.A.</div>
+        <h1>Historical<br>European<br>Martial Arts.</h1>
+        <p>Short version: Learn how to fight with swords, like medieval and renaissance people did. Apply this skill with your friends and other enthusiasts in safe modern equipment. Get better physically and mentally.</p>
+        <p>Our club is open to everyone, even those who have never trained before. Our experienced instructors will help you regain your mobility, rejuvenate your fitness levels, and improve your coordination.</p>
+        <p>Through HEMA, we aim to inspire movement, build social connections, and have fun. We believe that the Sword is an excellent tool to help achieve these goals.</p>
+        <div class="tagline">Learn, fight, repeat!</div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <button class="btn-primary" onclick="document.getElementById('programs').scrollIntoView({behavior:'smooth'})">Our Programs</button>
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSemipf4_RVJYXOFclz8AFvNq6fa1k3yrP2I9z6rWzATaXbi7g/viewform" class="btn-secondary">Try for Free</a>
+        </div>
+      </div>
+      <div class="visual-side fade-up delay-2">
+        <img src="https://hema-praha.cz/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fwarrior-with-witcher-eyes-2.1.ab5f67b5.png&w=1920&q=75"
+             alt="HEMA Warrior"
+             style="width:100%; border-radius:20px; max-height:600px; object-fit:cover; object-position:top;">
+        <div class="hema-circle">
+          <div class="hema-circle-item">
+            <div class="ci-icon">
+              <!-- Athletics icon -->
+              <svg viewBox="0 0 50 57" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28"><path d="M50 15.096a2.665 2.665 0 0 1-2.664 2.664H32.24V30.19H19.81V17.76H6.489a2.665 2.665 0 0 1 0-5.328h40.847A2.665 2.665 0 0 1 50 15.096ZM19.835 31.967 1.04 50.762a3.551 3.551 0 1 0 5.023 5.023l18.386-18.387h3.247l6.32 6.342v9.539a3.551 3.551 0 1 0 7.104 0V40.847l-8.848-8.88H19.835Zm1.75-26.64a5.328 5.328 0 1 1 10.655 0 5.328 5.328 0 0 1-10.655 0Z" fill="currentColor"/></svg>
+            </div>
+            Athletics
+          </div>
+          <div class="hema-circle-item">
+            <div class="ci-icon">
+              <!-- Fighting icon -->
+              <svg viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28"><path d="m42.077 39.9 1.251-1.25c.003-.004.003-.007.008-.01l2.075-2.078a1.572 1.572 0 1 0-2.224-2.224l-.973.973-10.286-10.287 3.245-3.245c.051-.05.1-.105.143-.164l14.365-19a1.572 1.572 0 0 0-2.196-2.21L28.392 14.678a1.57 1.57 0 0 0-.17.147l-3.246 3.245-3.245-3.245c-.05-.05-.105-.099-.164-.142L2.567.318a1.573 1.573 0 0 0-2.21 2.197L14.63 21.608c.044.06.094.119.148.17l3.246 3.245L7.736 35.31l-.973-.974a1.573 1.573 0 1 0-2.224 2.225l2.085 2.085 1.25 1.25-7.412 7.418A1.57 1.57 0 0 0 1.573 50c.403 0 .806-.154 1.113-.461l7.415-7.416 1.252 1.252 2.085 2.084a1.572 1.572 0 1 0 2.224-2.224l-.974-.972 10.288-10.287 10.288 10.287-.972.972a1.57 1.57 0 0 0 0 2.224 1.568 1.568 0 0 0 2.223 0l2.08-2.081.005-.003 1.253-1.25 7.415 7.414c.306.307.709.461 1.112.461.403 0 .805-.154 1.111-.461a1.57 1.57 0 0 0 0-2.224L42.077 39.9Z" fill="currentColor"/></svg>
+            </div>
+            Fighting
+          </div>
+          <div class="hema-circle-item">
+            <div class="ci-icon">
+              <!-- Tactics icon -->
+              <svg viewBox="0 0 50 54" fill="none" xmlns="http://www.w3.org/2000/svg" width="28" height="28"><path fill-rule="evenodd" clip-rule="evenodd" d="M40.473 15.626a1.64 1.64 0 0 1-.503-2.264l2.769-4.347a57.024 57.024 0 0 0-24.9 15.238c-7.4 7.74-12.445 17.412-14.592 27.971a1.64 1.64 0 0 1-3.214-.653c2.27-11.167 7.608-21.397 15.436-29.584A60.303 60.303 0 0 1 41.992 5.815l-4.386-2.792A1.64 1.64 0 1 1 39.367.257l7.766 4.908c.764.486.99 1.5.503 2.264l-4.9 7.694a1.639 1.639 0 0 1-2.263.503ZM14.106 10.55a7.003 7.003 0 0 1-6.996 6.996A7.003 7.003 0 0 1 .115 10.55 7.003 7.003 0 0 1 7.11 3.555a7.003 7.003 0 0 1 6.996 6.995Zm21.862 18.125a7.024 7.024 0 0 1 7.016-7.017A7.024 7.024 0 0 1 50 28.675a7.024 7.024 0 0 1-7.016 7.016 7.024 7.024 0 0 1-7.016-7.016Zm-4.949 17.928 4.27-4.27a1.64 1.64 0 1 0-2.32-2.317l-4.268 4.269-4.27-4.27a1.64 1.64 0 1 0-2.318 2.32l4.27 4.268-4.27 4.27a1.64 1.64 0 1 0 2.319 2.319l4.269-4.27 4.27 4.27c.32.32.74.48 1.159.48a1.64 1.64 0 0 0 1.16-2.8l-4.27-4.269Z" fill="currentColor"/></svg>
+            </div>
+            Tactics
+          </div>
+          <div class="hema-circle-item">
+            <div class="ci-icon">
+              <svg viewBox="0 0 40 47" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill-rule="evenodd" clip-rule="evenodd" d="M20 10.296c-2.832 0-5.148-2.316-5.148-5.148C14.852 2.317 17.168 0 20 0c2.831 0 5.148 2.317 5.148 5.148 0 2.832-2.317 5.148-5.148 5.148Zm0-2.941a2.213 2.213 0 0 0 2.206-2.207A2.213 2.213 0 0 0 20 2.942a2.213 2.213 0 0 0-2.207 2.206c0 1.214.993 2.207 2.207 2.207Zm5.883 8.825h2.942v13.238h-3.677v16.915H14.85V29.418h-3.677V16.18h2.942v10.296h3.677v16.916h4.413V26.476h3.677V16.18ZM2.35 8.825c0 2.832 2.316 5.149 5.148 5.149 2.831 0 5.148-2.317 5.148-5.149 0-2.831-2.317-5.148-5.148-5.148-2.832 0-5.148 2.317-5.148 5.148Zm7.354 0a2.213 2.213 0 0 1-2.206 2.207A2.213 2.213 0 0 1 5.29 8.825c0-1.213.993-2.206 2.207-2.206 1.213 0 2.206.993 2.206 2.206Zm23.534 21.328h3.678V18.386h2.941v14.71H36.18v13.237h-8.825v-2.941h5.883V30.152ZM27.354 8.825c0 2.832 2.317 5.149 5.148 5.149 2.831 0 5.148-2.317 5.148-5.149 0-2.831-2.316-5.148-5.148-5.148s-5.148 2.317-5.148 5.148Zm5.148-2.206c1.213 0 2.206.993 2.206 2.206a2.213 2.213 0 0 1-2.206 2.207 2.213 2.213 0 0 1-2.206-2.207c0-1.213.992-2.206 2.206-2.206ZM3.084 30.153h3.678v13.239h5.883v2.941H3.82V33.095H.143V18.386h2.941v11.767Z" fill="currentColor"/></svg>
+            </div>
+            Community
+          </div>
+          <div class="hema-circle-item">
+            <div class="ci-icon">
+              <!-- History icon -->
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"/></svg>
+            </div>
+            History
+          </div>
+          <div class="hema-circle-item">
+            <div class="ci-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 0 0 1.946-.806 3.42 3.42 0 0 1 4.438 0 3.42 3.42 0 0 0 1.946.806 3.42 3.42 0 0 1 3.138 3.138 3.42 3.42 0 0 0 .806 1.946 3.42 3.42 0 0 1 0 4.438 3.42 3.42 0 0 0-.806 1.946 3.42 3.42 0 0 1-3.138 3.138 3.42 3.42 0 0 0-1.946.806 3.42 3.42 0 0 1-4.438 0 3.42 3.42 0 0 0-1.946-.806 3.42 3.42 0 0 1-3.138-3.138 3.42 3.42 0 0 0-.806-1.946 3.42 3.42 0 0 1 0-4.438 3.42 3.42 0 0 0 .806-1.946 3.42 3.42 0 0 1 3.138-3.138Z"/></svg>
+            </div>
+            Safety
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     STATS
+═══════════════════════════════════════ -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-row">
+      <div class="stat-block fade-up">
+        <div class="stat-number">5<span>+</span></div>
+        <div class="stat-label">Expert Instructors</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-block fade-up delay-1">
+        <div class="stat-number">12<span>+</span></div>
+        <div class="stat-label">Yrs of Experience</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-block fade-up delay-2">
+        <div class="stat-number">3<span>×</span></div>
+        <div class="stat-label">Trainings Per Week</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-block fade-up delay-3">
+        <div class="stat-number">16</div>
+        <div class="stat-label">Entry Course Sessions</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-block fade-up delay-4">
+        <div class="stat-number"><span>Top</span>5</div>
+        <div class="stat-label">World HEMA Ranking</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     VIDEOS
+═══════════════════════════════════════ -->
+<section id="videos">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-dot"></span>See It In Action</div>
+      <h2>Our Training<br>in Real Life</h2>
+    </div>
+    <div class="videos-grid">
+      <div class="video-card fade-up delay-1">
+        <h3>How Our Routine Looks Like</h3>
+        <iframe src="https://www.youtube-nocookie.com/embed/pkmeRPGnsqU" title="HEMA Praha: the Routine" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-card fade-up delay-2">
+        <h3>How Our Trainings Look Like</h3>
+        <iframe src="https://www.youtube-nocookie.com/embed/H5ZemGlNofc" title="HEMA PRAHA training session" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     TRAINING PROGRAMS
+═══════════════════════════════════════ -->
+<section id="programs">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-dot"></span>Training Program</div>
+      <h2>Our Training<br>Program</h2>
+      <p>Our club is open to everyone, even those who have never trained before. Choose the course that fits your level.</p>
+    </div>
+    <div class="programs-grid">
+
+      <div class="program-card fade-up delay-1">
+        <div class="program-badge">Beginners</div>
+        <h3>HEMA Entry<br>Longsword 18+</h3>
+        <h4>Discover Historical Fencing!</h4>
+        <p class="program-desc">Two months, 16 sessions. Twice per week course for people who would like to try out HEMA for themselves. Designed for beginners to discover the phenomena of historical fencing. Top-quality equipment fully provided — sword, mask, jacket, and plastic protectors.</p>
+        <div class="program-divider"></div>
+        <div class="program-features">
+          <div class="program-feature"><span class="check">✓</span>16 sessions over 2 months</div>
+          <div class="program-feature"><span class="check">✓</span>2× per week</div>
+          <div class="program-feature"><span class="check">✓</span>Equipment fully provided</div>
+          <div class="program-feature"><span class="check">✓</span>Small groups, personal approach</div>
+        </div>
+        <button class="btn-primary" style="width:100%; font-size:20px; padding:14px 24px;" onclick="document.getElementById('prices').scrollIntoView({behavior:'smooth'})">Apply</button>
+      </div>
+
+      <div class="program-card featured fade-up delay-2">
+        <div class="program-badge">Most Popular</div>
+        <h3>Regular<br>Trainings</h3>
+        <h4>Fight and Get Fit!</h4>
+        <p class="program-desc">Three times per week, for people who want to train continuously and develop themselves. Challenge yourself in sparring and tournaments, pushing your limits and honing your skills in a friendly yet competitive environment.</p>
+        <div class="program-divider"></div>
+        <div class="program-features">
+          <div class="program-feature"><span class="check">✓</span>3× per week</div>
+          <div class="program-feature"><span class="check">✓</span>Longsword tradition of Liechtenauer</div>
+          <div class="program-feature"><span class="check">✓</span>Equipment fully provided</div>
+          <div class="program-feature"><span class="check">✓</span>Sparring & tournaments</div>
+          <div class="program-feature"><span class="check">✓</span>International community</div>
+        </div>
+        <button class="btn-primary" style="width:100%; font-size:20px; padding:14px 24px;" onclick="document.getElementById('prices').scrollIntoView({behavior:'smooth'})">Apply</button>
+      </div>
+
+      <div class="program-card fade-up delay-3">
+        <div class="program-badge">Youth</div>
+        <h3>Historical Fencing<br>for Youth 15–17</h3>
+        <h4>5 Months Long Class</h4>
+        <p class="program-desc">October 6th – January 28th. Fun way to improve coordination, fitness and socialization under a professional teacher's observation. Designed specifically for teenagers to discover fencing safely.</p>
+        <div class="program-divider"></div>
+        <div class="program-features">
+          <div class="program-feature"><span class="check">✓</span>5-month program</div>
+          <div class="program-feature"><span class="check">✓</span>Ages 15–17</div>
+          <div class="program-feature"><span class="check">✓</span>Professional instructor</div>
+          <div class="program-feature"><span class="check">✓</span>Coordination & fitness</div>
+        </div>
+        <button class="btn-primary" style="width:100%; font-size:20px; padding:14px 24px;" onclick="document.getElementById('prices').scrollIntoView({behavior:'smooth'})">Apply</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     TRAINERS
+═══════════════════════════════════════ -->
+<section id="trainers">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-dot"></span>Who We Are</div>
+      <h2>Meet Our<br>Instructors</h2>
+    </div>
+    <div class="trainers-grid">
+
+      <div class="trainer-card fade-up">
+        <img class="trainer-img" src="hema-instructors/sakharov-2.0.png" alt="Matvey Sakharov">
+        <div class="trainer-info">
+          <h3>MUDr. Matvey Sakharov</h3>
+          <p>Life-long fencer, Olympic épée national competitor, HEMA advanced, footwork machine.</p>
+          <div class="trainer-lang">CZ (Intermediate) · EN · UA · RU</div>
+          <a href="https://www.facebook.com/tarrok.speaker.3" class="trainer-fb" target="_blank">Facebook →</a>
+        </div>
+      </div>
+
+      <div class="trainer-card fade-up delay-1">
+        <img class="trainer-img" src="hema-instructors/stankevich-3.0.png" alt="Alexander Stankevich">
+        <div class="trainer-info">
+          <h3>Alexander Stankevich</h3>
+          <p>Over 12 years of experience, peaked at top 5 in world longsword HEMA-ratings. Director of Kvetun Armoury and HEMAGON.</p>
+          <div class="trainer-lang">CZ · EN (Fluent) · RU (Native)</div>
+          <a href="https://www.facebook.com/spesmarine" class="trainer-fb" target="_blank">Facebook →</a>
+        </div>
+      </div>
+
+      <div class="trainer-card fade-up delay-2">
+        <img class="trainer-img" src="hema-instructors/adam.png" alt="Adam Prochaska">
+        <div class="trainer-info">
+          <h3>Adam Prochaska</h3>
+          <p>After abandoning software development and technical diving, Adam dove head first into HEMA. Trains twice a day, eats, drinks and breathes fechtbuchs.</p>
+          <div class="trainer-lang">EN (Bilingual) · CZ (Native) · ES</div>
+          <a href="https://www.facebook.com/adampr0chaska" class="trainer-fb" target="_blank">Facebook →</a>
+        </div>
+      </div>
+
+      <div class="trainer-card fade-up delay-3">
+        <img class="trainer-img" src="hema-instructors/pavel.png" alt="Pavel Grussmann">
+        <div class="trainer-info">
+          <h3>Pavel Grussmann</h3>
+          <p>Physical chemist who followed his inner voice and began to make a living through fencing.</p>
+          <div class="trainer-lang">CZ (Native) · EN (Advanced) · RU · DE</div>
+          <a href="https://www.facebook.com/pavel.grussmann/" class="trainer-fb" target="_blank">Facebook →</a>
+        </div>
+      </div>
+
+      <div class="trainer-card fade-up delay-4">
+        <img class="trainer-img" src="hema-instructors/vlad.png" alt="Vladislav Tovt">
+        <div class="trainer-info">
+          <h3>Vladislav Tovt</h3>
+          <p>Martial arts enthusiast, passionate about making European longsword traditions accessible through structured training and historical research.</p>
+          <div class="trainer-lang">RU (Native) · EN (Fluent)</div>
+          <a href="https://www.facebook.com/share/1AkhMyKggk/" class="trainer-fb" target="_blank">Facebook →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     PRICES
+═══════════════════════════════════════ -->
+<section id="prices">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-dot"></span>Investment</div>
+      <h2>Prices</h2>
+      <p>Transparent pricing. No hidden fees. Equipment always included.</p>
+    </div>
+    <div class="prices-grid">
+
+      <div class="price-card fade-up">
+        <h3>Trial Lesson</h3>
+        <p class="price-desc">Attend one training session, try it for yourself</p>
+        <div class="price-amount free">FREE</div>
+        <div class="price-unit">&nbsp;</div>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSemipf4_RVJYXOFclz8AFvNq6fa1k3yrP2I9z6rWzATaXbi7g/viewform" class="btn-primary" style="width:100%; font-size:18px; padding:14px 20px;">Sign Up</a>
+      </div>
+
+      <div class="price-card featured fade-up delay-1">
+        <h3>Entry Course</h3>
+        <p class="price-desc">Two-month program. 16 sessions. Two times per week. Equipment fully provided.</p>
+        <div class="price-amount">2950</div>
+        <div class="price-unit">KČ / month</div>
+        <button class="btn-primary" style="width:100%; font-size:18px; padding:14px 20px;" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Apply</button>
+      </div>
+
+      <div class="price-card featured fade-up delay-2">
+        <h3>Monthly Training</h3>
+        <p class="price-desc">Longsword. 3 times per week. Equipment fully provided.</p>
+        <div class="price-amount">4000</div>
+        <div class="price-unit">KČ / month</div>
+        <button class="btn-primary" style="width:100%; font-size:18px; padding:14px 20px;" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Apply</button>
+      </div>
+
+      <div class="price-card fade-up delay-3">
+        <h3>Personal Training</h3>
+        <p class="price-desc">Individual training session with selected instructor</p>
+        <div class="price-amount">2000</div>
+        <div class="price-unit">KČ / session</div>
+        <button class="btn-primary" style="width:100%; font-size:18px; padding:14px 20px;" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     SCHEDULE
+═══════════════════════════════════════ -->
+<section id="schedule">
+  <div class="container">
+    <div class="section-header fade-up">
+      <div class="eyebrow"><span class="eyebrow-dot"></span>Calendar</div>
+      <h2>HEMA Praha<br>Schedule</h2>
+    </div>
+
+    <div class="schedule-table-wrap fade-up">
+      <table class="schedule-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+            <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+            <th>Sunday</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>18:00 – 19:00</td>
+            <td>
+              <div class="sched-event beginner">
+                <div class="evt-time">18:00–19:00</div>
+                <div class="evt-name">Entry 36</div>
+                <div class="evt-trainer">28.04.–19.06.</div>
+              </div>
+            </td>
+            <td>—</td>
+            <td>
+              <div class="sched-event beginner">
+                <div class="evt-time">18:00–19:00</div>
+                <div class="evt-name">Entry 36</div>
+                <div class="evt-trainer">Pavel Grussmann</div>
+              </div>
+            </td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>19:30 – 20:30</td>
+            <td>
+              <div class="sched-event">
+                <div class="evt-time">19:30–20:30</div>
+                <div class="evt-name">Entry 37</div>
+                <div class="evt-trainer">28.04.–19.06.</div>
+              </div>
+            </td>
+            <td>—</td>
+            <td>
+              <div class="sched-event">
+                <div class="evt-time">19:30–20:30</div>
+                <div class="evt-name">Entry 37</div>
+                <div class="evt-trainer">A. Stankevich</div>
+              </div>
+            </td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+          </tr>
+          <tr>
+            <td>11:00 – 12:00</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>—</td>
+            <td>
+              <div class="sched-free">
+                <div>11:00–12:00</div>
+                <div style="font-size:12px;margin-top:3px;">Free Open Lesson</div>
+                <div style="font-size:10px;opacity:0.7;margin-top:2px;">Come &amp; see what HEMA is about!</div>
+              </div>
+            </td>
+            <td>—</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="text-align:center; margin-top:48px;" class="fade-up">
+      <button class="btn-primary btn-primary-xl" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Sign Up for Training</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FREE LESSON CTA BAND
+═══════════════════════════════════════ -->
+<section id="free-lesson">
+  <div class="container">
+    <h2>Your First Lesson is Free</h2>
+    <p>Come and see what HEMA is all about. No commitment, no equipment needed.</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLSemipf4_RVJYXOFclz8AFvNq6fa1k3yrP2I9z6rWzATaXbi7g/viewform" class="free-lesson-btn">Try for Free →</a>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FAQ
+═══════════════════════════════════════ -->
+<section id="faq">
+  <div class="container">
+    <div class="eyebrow fade-up"><span class="eyebrow-dot"></span>FAQ</div>
+    <h1 class="fade-up">What Are You<br>Most Interested In?</h1>
+
+    <div class="faq-list">
+
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFaq(this)">
+          <h3>What is the difference between courses?</h3>
+          <div class="faq-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="7" y1="0" x2="7" y2="14" stroke="white" stroke-width="1.5"/><line x1="0" y1="7" x2="14" y2="7" stroke="white" stroke-width="1.5"/></svg>
+          </div>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner">
+            The Entry Course is a structured 2-month beginner program (16 sessions, 2× per week) designed for people with no prior HEMA experience. All equipment is provided. Regular Training is for those who want to continue training long-term — 3× per week, open format with sparring and free practice. Youth course is designed specifically for ages 15–17 with a curriculum tailored to younger students.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFaq(this)">
+          <h3>What if I don't like the trainings? How's the refund policy?</h3>
+          <div class="faq-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="7" y1="0" x2="7" y2="14" stroke="white" stroke-width="1.5"/><line x1="0" y1="7" x2="14" y2="7" stroke="white" stroke-width="1.5"/></svg>
+          </div>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner">
+            We offer a free trial lesson before you commit to any course. If after the first paid session you decide it's not for you, we handle refunds on a case-by-case basis. Please contact us at info@hema-praha.cz to discuss your situation.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFaq(this)">
+          <h3>My schedule doesn't allow me to attend all the lessons offered in the course</h3>
+          <div class="faq-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="7" y1="0" x2="7" y2="14" stroke="white" stroke-width="1.5"/><line x1="0" y1="7" x2="14" y2="7" stroke="white" stroke-width="1.5"/></svg>
+          </div>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner">
+            That's totally fine. Life happens. We understand that not everyone can attend every session. Entry Course students can catch up on missed sessions during the next batch or ask for makeup lessons. For Regular Training members, you simply come when you can — there is no mandatory attendance.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFaq(this)">
+          <h3>Do I need to bring my own equipment?</h3>
+          <div class="faq-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="7" y1="0" x2="7" y2="14" stroke="white" stroke-width="1.5"/><line x1="0" y1="7" x2="14" y2="7" stroke="white" stroke-width="1.5"/></svg>
+          </div>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner">
+            No. All equipment is fully provided for Entry Course and Regular Training students — sword, mask, jacket, and protective gear from leading world brands. Once you decide to commit long-term, you may want to invest in your own gear, and we will guide you on what to buy.
+          </div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-trigger" onclick="toggleFaq(this)">
+          <h3>Is it safe? Can I get injured?</h3>
+          <div class="faq-icon">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="7" y1="0" x2="7" y2="14" stroke="white" stroke-width="1.5"/><line x1="0" y1="7" x2="14" y2="7" stroke="white" stroke-width="1.5"/></svg>
+          </div>
+        </button>
+        <div class="faq-body">
+          <div class="faq-body-inner">
+            HEMA is a contact sport, so some bruising is normal during sparring. However, we use modern safety equipment — padded jackets, fencing masks, and protective gloves — that significantly reduces injury risk. Our instructors are experienced and structure training progressively, so beginners start with technique drills before any contact work.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     CONTACT
+═══════════════════════════════════════ -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-info fade-up">
+        <div class="eyebrow"><span class="eyebrow-dot"></span>Get in Touch</div>
+        <h2>Contact Us</h2>
+        <p class="tagline">Looking forward to meeting you!</p>
+        <div class="contact-details">
+          <div class="contact-row">
+            <div class="contact-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div>
+              <div class="label">Address</div>
+              <div class="value">
+                <a href="https://www.google.com/maps/search/?api=1&query=50.1041688,14.4576406" target="_blank">Jankovcova 1535/2A, 3rd Floor</a>
+              </div>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+            </div>
+            <div>
+              <div class="label">Phone</div>
+              <div class="value"><a href="tel:+420602419636">+420 602 419 636</a></div>
+            </div>
+          </div>
+          <div class="contact-row">
+            <div class="contact-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            </div>
+            <div>
+              <div class="label">Email</div>
+              <div class="value"><a href="mailto:info@hema-praha.cz">info@hema-praha.cz</a></div>
+            </div>
+          </div>
+        </div>
+        <div class="social-links">
+          <a href="https://www.facebook.com/hemapraha" target="_blank" class="social-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            Facebook
+          </a>
+          <a href="https://www.youtube.com/channel/UCxkZjg_xViLxRtwau6-oH2g" target="_blank" class="social-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m22.54 6.42-2.1-2.1A2 2 0 0 0 19 4H5a2 2 0 0 0-1.44.32L1.46 6.42A2 2 0 0 0 1 7.83V16a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7.83a2 2 0 0 0-.46-1.41Z"/><polygon points="10 15 15 12 10 9 10 15" fill="currentColor" stroke="none"/></svg>
+            YouTube
+          </a>
+        </div>
+      </div>
+
+      <div class="map-placeholder fade-up delay-2">
+        <iframe
+          src="https://www.openstreetmap.org/export/embed.html?bbox=14.453%2C50.100%2C14.462%2C50.108&layer=mapnik&marker=50.1041688%2C14.4576406"
+          title="HEMA Praha Location"
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════ -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="logo">HEMA Praha</div>
+        <p>Follow the Sword to a Greater You!</p>
+        <div class="social-links">
+          <a href="https://www.facebook.com/hemapraha" target="_blank" class="social-btn" style="font-size:13px;padding:8px 16px;">Facebook</a>
+          <a href="https://www.youtube.com/channel/UCxkZjg_xViLxRtwau6-oH2g" target="_blank" class="social-btn" style="font-size:13px;padding:8px 16px;">YouTube</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h5>Learn More</h5>
+        <ul>
+          <li><a href="#programs">Training Groups</a></li>
+          <li><a href="#schedule">Schedule</a></li>
+          <li><a href="#prices">Prices</a></li>
+          <li><a href="#faq">FAQ</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Instructors</h5>
+        <ul>
+          <li><a href="#trainers">Matvey Sakharov</a></li>
+          <li><a href="#trainers">Alexander Stankevich</a></li>
+          <li><a href="#trainers">Adam Prochaska</a></li>
+          <li><a href="#trainers">Pavel Grussmann</a></li>
+          <li><a href="#trainers">Vladislav Tovt</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="tel:+420602419636">+420 602 419 636</a></li>
+          <li><a href="mailto:info@hema-praha.cz">info@hema-praha.cz</a></li>
+          <li><a href="https://www.google.com/maps/search/?api=1&query=50.1041688,14.4576406" target="_blank">Jankovcova 1535/2A</a></li>
+          <li><a href="https://docs.google.com/forms/d/e/1FAIpQLSemipf4_RVJYXOFclz8AFvNq6fa1k3yrP2I9z6rWzATaXbi7g/viewform" target="_blank">Try for Free</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 HEMA Praha. IČO: 21867828. All rights reserved.</span>
+      <span>Support Ukraine 🇺🇦</span>
+      <span class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top ↑</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════ -->
+<script>
+  // ── Hamburger / Mobile menu
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  function openMobileMenu() {
+    hamburgerBtn.classList.add('open');
+    hamburgerBtn.setAttribute('aria-expanded', 'true');
+    mobileMenu.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMobileMenu() {
+    hamburgerBtn.classList.remove('open');
+    hamburgerBtn.setAttribute('aria-expanded', 'false');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  hamburgerBtn.addEventListener('click', () => {
+    if (mobileMenu.classList.contains('open')) {
+      closeMobileMenu();
+    } else {
+      openMobileMenu();
+    }
+  });
+  // Close on backdrop tap
+  mobileMenu.addEventListener('click', (e) => {
+    if (e.target === mobileMenu) closeMobileMenu();
+  });
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMobileMenu();
+  });
+
+  // ── Nav scroll effect (TwistCafe opacity transition)
+  const mainNav = document.getElementById('main-nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      mainNav.classList.add('scrolled');
+    } else {
+      mainNav.classList.remove('scrolled');
+    }
+  }, { passive: true });
+
+  // ── Scroll reveal (Intersection Observer)
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // ── Big text reveal
+  const revealText = document.getElementById('reveal-text');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.3 });
+  if (revealText) revealObserver.observe(revealText);
+
+  // ── FAQ accordion
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    // close all
+    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    // open clicked if was closed
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+
+<!-- ═══════════════════════════════════════
+     STICKY BOTTOM CTA (mobile)
+═══════════════════════════════════════ -->
+<div id="sticky-cta">
+  <a href="tel:+420602419636" class="btn-secondary">Zavolat</a>
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSemipf4_RVJYXOFclz8AFvNq6fa1k3yrP2I9z6rWzATaXbi7g/viewform" class="btn-primary">Zkusit zdarma</a>
+</div>
+
+</body>
+</html>
