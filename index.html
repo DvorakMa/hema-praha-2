@@ -220,11 +220,33 @@
     .hero-sword-lines svg {
       position: absolute; bottom: 0;
     }
-    /* Background image placeholder */
+    /* Fallback image (shown before video loads / on mobile) */
     .hero-bg-image {
-      position: absolute; inset: 0;
+      position: absolute; inset: 0; z-index: 0;
       background: url('https://hema-praha.cz/_next/image?url=%2F_next%2Fstatic%2Fmedia%2F1.11c8717a.jpg&w=3840&q=75') center/cover no-repeat;
-      filter: brightness(0.6) saturate(0.7);
+      filter: brightness(0.5) saturate(0.6);
+    }
+
+    /* YouTube background video */
+    .hero-video-wrap {
+      position: absolute; inset: 0; z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .hero-video-wrap iframe {
+      position: absolute;
+      top: 50%; left: 50%;
+      /* Cover viewport keeping 16:9 ratio */
+      width: max(100%, calc(100vh * 16 / 9));
+      height: max(100%, calc(100vw * 9 / 16));
+      transform: translate(-50%, -50%);
+      opacity: 0.45;
+      border: none;
+      pointer-events: none;
+    }
+    /* On mobile — hide video, keep only fallback image */
+    @media (max-width: 768px) {
+      .hero-video-wrap { display: none; }
     }
     .hero-content {
       position: relative; z-index: 2;
@@ -1536,8 +1558,19 @@
      HERO
 ═══════════════════════════════════════ -->
 <section id="hero">
-  <!-- Background image -->
+  <!-- Fallback image (mobile / before video loads) -->
   <div class="hero-bg-image"></div>
+
+  <!-- YouTube background video -->
+  <div class="hero-video-wrap">
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/pkmeRPGnsqU?autoplay=1&mute=1&loop=1&playlist=pkmeRPGnsqU&controls=0&disablekb=1&fs=0&rel=0&showinfo=0&modestbranding=1&playsinline=1&iv_load_policy=3"
+      title="HEMA Praha background"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      loading="eager">
+    </iframe>
+  </div>
 
   <!-- Sword line decorations -->
   <div class="hero-sword-lines">
